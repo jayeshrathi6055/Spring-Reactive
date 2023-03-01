@@ -1,6 +1,7 @@
 package com.example.Customer.Services;
 
 import com.example.Customer.Dto.CustomerDto;
+import com.example.Customer.Models.CustomerEntity;
 import com.example.Customer.Repository.CustomerRepository;
 import com.example.Customer.Utils.CustomerUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,33 +15,27 @@ import java.util.Random;
 @Service
 public class CustomerService {
 	@Autowired
-	private CustomerRepository repo;
+	private CustomerRepository repository;
 
-//	Get Method
-	public Flux<CustomerDto> allCustomer(){
-		return repo.findAll().map(CustomerUtils::entityToDto);
-	}
-	public Mono<CustomerDto> getCustomer(int id){
-		return repo.findById(id).map(CustomerUtils::entityToDto);
-	}
-	public Flux<CustomerDto> getCustomerInRange(int min, int max){
-		return repo.findAll().filter(i -> i.getAge()>min && i.getAge()<max).map(CustomerUtils::entityToDto);
+	public Flux<CustomerEntity> allCustomer(){
+		return repository.findAll();
 	}
 
-//	Create Method
-	public Mono<CustomerDto> saveCustomer(Mono<CustomerDto> customerDtoMono){
-//		.doOnNext(e->e.setId((int)Math.floor(Math.random() * (100 - 1 + 1) + 1)))
-		return customerDtoMono.map(CustomerUtils::dtoToEntity).flatMap(repo::save).map(CustomerUtils::entityToDto);
+	public Mono<CustomerEntity> getCustomer(int id){
+		return repository.findById(id);
 	}
 
-//	Update Method
-	public Mono<CustomerDto> updateCustomer(Mono<CustomerDto> customerDtoMono, int id){
-		return repo.findById(id).flatMap(c -> customerDtoMono.map(CustomerUtils::dtoToEntity).doOnNext(e -> e.setId(id)))
-				.flatMap(repo::save).map(CustomerUtils::entityToDto);
+	public Mono<CustomerEntity> saveCustomer(CustomerEntity pe){
+		return repository.save(pe);
 	}
 
-//	Delete Method
+	public Mono<CustomerEntity> updateCustomer(CustomerEntity pe, int id){
+		repository.deleteById(id);
+		pe.setId(id);
+		return repository.save(pe);
+	}
+
 	public Mono<Void> deleteCustomer(int id){
-		return repo.deleteById(id);
+		return repository.deleteById(id);
 	}
 }

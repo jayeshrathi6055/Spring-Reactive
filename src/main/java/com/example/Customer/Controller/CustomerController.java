@@ -1,7 +1,10 @@
 package com.example.Customer.Controller;
 
 import com.example.Customer.Dto.CustomerDto;
+import com.example.Customer.Models.CustomerEntity;
+import com.example.Customer.Repository.CustomerRepository;
 import com.example.Customer.Services.CustomerService;
+import com.example.Customer.Utils.CustomerUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,18 +23,13 @@ public class CustomerController {
 	private CustomerService service;
 
 	@GetMapping("/allPerson")
-	public Flux<CustomerDto> getAll(){
+	public Flux<CustomerEntity> getAll(){
 		return service.allCustomer();
 	}
 
 	@GetMapping("/getPerson/{id}")
-	public Mono<CustomerDto> getPerson(@PathVariable String id){
+	public Mono<CustomerEntity> getPerson(@PathVariable String id){
 		return service.getCustomer(Integer.parseInt(id.trim()));
-	}
-
-	@GetMapping("/rangeInAge")
-	public Flux<CustomerDto> ageInRange(@RequestParam int min, @RequestParam int max){
-		return service.getCustomerInRange(min, max);
 	}
 
 	@DeleteMapping("/deletePerson/{id}")
@@ -40,11 +38,11 @@ public class CustomerController {
 	}
 
 	@PostMapping("/createPerson")
-	public Mono<CustomerDto> createPerson(@RequestBody Mono<CustomerDto> customerDto){
-		return service.saveCustomer(customerDto);
+	public Mono<CustomerEntity> createPerson(@RequestBody CustomerEntity customerEntity){
+		return service.saveCustomer(customerEntity);
 	}
 	@PutMapping("/updatePerson/{id}")
-	public Mono<CustomerDto> updatePerson(@RequestBody Mono<CustomerDto> customerDtoMono, @PathVariable String id){
-		return service.updateCustomer(customerDtoMono,Integer.parseInt(id));
+	public Mono<CustomerEntity> updatePerson(@RequestBody CustomerEntity customerEntity, @PathVariable String id){
+		return service.updateCustomer(customerEntity,Integer.parseInt(id));
 	}
 }
