@@ -1,10 +1,7 @@
 package com.example.Customer.Controller;
 
-import com.example.Customer.Dto.CustomerDto;
 import com.example.Customer.Models.CustomerEntity;
-import com.example.Customer.Repository.CustomerRepository;
 import com.example.Customer.Services.CustomerService;
-import com.example.Customer.Utils.CustomerUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,7 +9,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;

@@ -1,15 +1,12 @@
 package com.example.Customer.Services;
 
-import com.example.Customer.Dto.CustomerDto;
 import com.example.Customer.Models.CustomerEntity;
 import com.example.Customer.Repository.CustomerRepository;
-import com.example.Customer.Utils.CustomerUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import java.util.Random;
 
 
 @Service
@@ -18,24 +15,22 @@ public class CustomerService {
 	private CustomerRepository repository;
 
 	public Flux<CustomerEntity> allCustomer(){
-		return repository.findAll();
+		return repository.getAll();
 	}
 
 	public Mono<CustomerEntity> getCustomer(int id){
-		return repository.findById(id);
+		return repository.getOne(id);
 	}
 
 	public Mono<CustomerEntity> saveCustomer(CustomerEntity pe){
-		return repository.save(pe);
+		return repository.insert(pe.getName(),pe.getAge(),pe.getNumber());
 	}
 
 	public Mono<CustomerEntity> updateCustomer(CustomerEntity pe, int id){
-		repository.deleteById(id);
-		pe.setId(id);
-		return repository.save(pe);
+		return repository.update(pe.getName(),pe.getAge(),pe.getNumber(), id);
 	}
 
 	public Mono<Void> deleteCustomer(int id){
-		return repository.deleteById(id);
+		return repository.del(id);
 	}
 }
