@@ -1,6 +1,7 @@
 package com.example.Customer.config;
 
 import com.example.Customer.Models.CustomerEntity;
+import com.example.Customer.Models.Person;
 import org.apache.kafka.clients.admin.NewTopic;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
@@ -48,6 +49,12 @@ public class kafkaTopic {
 			KafkaProperties properties) {
 		Map<String, Object> props = properties.buildProducerProperties();
 		return new ReactiveKafkaProducerTemplate<String, CustomerEntity>(SenderOptions.create(props));
+	}
+	@Bean
+	public ReactiveKafkaProducerTemplate<String, Person> reactiveKafkaProducerPerson(
+			KafkaProperties properties) {
+		Map<String, Object> props = properties.buildProducerProperties();
+		return new ReactiveKafkaProducerTemplate<String, Person>(SenderOptions.create(props));
 	}
 	@Bean
 	public ReactiveKafkaProducerTemplate<String, Flux<CustomerEntity>> reactiveKafkaProducerListJsonTemplate(
